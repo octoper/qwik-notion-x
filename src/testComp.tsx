@@ -12,7 +12,7 @@ export const Test = component$(() => {
   const recordMap = useSignal<ExtendedRecordMap>();
   const pageId = useSignal<string>("067dd719a912471ea9a3ac10710e7fdf");
 
-  pageId.value = '2fea615a-97a7-401c-81be-486e4eec2e94';
+//   pageId.value = '2fea615a-97a7-401c-81be-486e4eec2e94';
 
   useTask$(async ({ track }) => {
     const trackPage = track(() => pageId.value);
@@ -28,7 +28,7 @@ export const Test = component$(() => {
 
   return (
     <>
-      <NotionRenderer recordMap={recordMap.value} />
+      <NotionRenderer fullPage recordMap={recordMap.value} />
     </>
   );
 });

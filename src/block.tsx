@@ -8,18 +8,18 @@ import {
   uuidToId,
 } from "notion-utils";
 
-import { AssetWrapper } from './components/asset-wrapper'
-import { Audio } from './components/audio'
-import { EOI } from './components/eoi'
-import { File } from './components/file'
-import { GoogleDrive } from './components/google-drive'
+import { AssetWrapper } from "./components/asset-wrapper";
+import { Audio } from "./components/audio";
+import { EOI } from "./components/eoi";
+import { File } from "./components/file";
+import { GoogleDrive } from "./components/google-drive";
 // import { LazyImage } from './components/lazy-image'
-import { PageAside } from './components/page-aside'
+import { PageAside } from "./components/page-aside";
 // import { PageIcon } from './components/page-icon'
 // import { PageTitle } from './components/page-title'
 // import { SyncPointerBlock } from './components/sync-pointer-block'
 import { useNotionContext } from "./context";
-import { LinkIcon } from './icons/link-icon'
+import { LinkIcon } from "./icons/link-icon";
 import { cs, getListNumber, isUrl } from "./utils";
 import { Slot, component$, useSignal } from "@builder.io/qwik";
 import { Text } from "./components/text";
@@ -69,7 +69,7 @@ export const Block = component$<BlockProps>((props) => {
     defaultPageCoverPosition,
   } = ctx;
 
-  const activeSession = useSignal(null);
+  const activeSession = useSignal<any>(null);
 
   const {
     block,
@@ -228,7 +228,7 @@ export const Block = component$<BlockProps>((props) => {
                         )}
                       >
                         <article class="notion-page-content-inner">
-                          <Slot></Slot>
+                          <Slot />
                         </article>
 
                         {hasAside && (
@@ -344,7 +344,7 @@ export const Block = component$<BlockProps>((props) => {
         isH2 && "notion-h notion-h2",
         isH3 && "notion-h notion-h3",
         blockColor && `notion-${blockColor}`,
-        indentLevelClass,
+        indentLevelClass!,
         blockId
       );
 
@@ -531,7 +531,7 @@ export const Block = component$<BlockProps>((props) => {
     case "column_list":
       return (
         <div class={cs("notion-row", blockId)}>
-          <Slot/>
+          <Slot />
         </div>
       );
 
@@ -551,7 +551,7 @@ export const Block = component$<BlockProps>((props) => {
       return (
         <>
           <div class={cs("notion-column", blockId)} style={style}>
-            <Slot/>
+            <Slot />
           </div>
 
           <div class="notion-spacer" />
@@ -575,7 +575,7 @@ export const Block = component$<BlockProps>((props) => {
           <div>
             <Text value={block.properties.title} block={block} />
           </div>
-          <Slot/>
+          <Slot />
         </blockquote>
       );
     }
@@ -600,7 +600,7 @@ export const Block = component$<BlockProps>((props) => {
 
             <div class="notion-callout-text">
               <Text value={block.properties?.title} block={block} />
-              <Slot/>
+              <Slot />
             </div>
           </div>
         );
@@ -656,6 +656,7 @@ export const Block = component$<BlockProps>((props) => {
               <div class="notion-bookmark-link">
                 {block.format?.bookmark_icon && (
                   <div class="notion-bookmark-link-icon">
+                    {/* eslint-disable-next-line qwik/jsx-img */}
                     <img
                       src={mapImageUrl(block.format?.bookmark_icon, block)}
                       alt={title}
@@ -768,7 +769,7 @@ export const Block = component$<BlockProps>((props) => {
       );
 
     case "transclusion_reference":
-        return null
+      return null;
     //   return <SyncPointerBlock block={block} level={level + 1} {...props} />;
 
     case "alias": {
@@ -784,8 +785,10 @@ export const Block = component$<BlockProps>((props) => {
           class={cs("notion-page-link", blockPointerId)}
           href={mapPageUrl(blockPointerId)}
         >
-            Hello
-          <PageTitle block={linkedBlock} ><Slot /></PageTitle>
+          Hello
+          <PageTitle block={linkedBlock}>
+            <Slot />
+          </PageTitle>
         </components.PageLink>
       );
     }

@@ -19,6 +19,7 @@ import {
   useContextProvider,
   useStore,
 } from "@builder.io/qwik";
+import { Header } from "./components/header";
 
 export interface NotionContext {
   recordMap: ExtendedRecordMap;
@@ -140,7 +141,7 @@ const defaultComponents: NotionComponents = {
   Tweet: dummyComponent("Tweet"),
   Modal: dummyComponent("Modal"),
 
-  Header: dummyComponent("Header"),
+  Header: Header,
   Embed: dummyComponent("Embed"),
 };
 
@@ -207,7 +208,7 @@ export const NotionContextProvider = component$<PartialNotionContext>(
       ...rest,
       rootPageId,
       mapPageUrl: mapPageUrl ?? defaultMapPageUrl(rootPageId),
-      mapImageUrl: mapImageUrl ?? defaultMapImageUrl,
+      mapImageUrl: mapImageUrl ?? noSerialize(defaultMapImageUrl),
       components: { ...defaultComponents, ...wrappedThemeComponents.value },
     });
 

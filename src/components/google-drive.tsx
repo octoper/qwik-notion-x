@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { GoogleDriveBlock } from "notion-types";
 
 import { useNotionContext } from "../context";

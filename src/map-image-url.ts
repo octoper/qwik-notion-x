@@ -1,7 +1,6 @@
-import { $ } from "@builder.io/qwik";
 import { Block } from "notion-types";
 
-export const defaultMapImageUrl = $((
+export const defaultMapImageUrl = (
   url: string,
   block: Block
 ): string | null => {
@@ -58,4 +57,4 @@ export const defaultMapImageUrl = $((
   url = notionImageUrlV2.toString();
 
   return url;
-});
+};

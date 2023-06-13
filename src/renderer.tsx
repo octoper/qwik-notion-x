@@ -9,7 +9,7 @@ import {
   NotionComponents,
   SearchNotionFn,
 } from "./types";
-import { Slot, component$, useComputed$ } from "@builder.io/qwik";
+import { Slot, component$, noSerialize, useComputed$ } from "@builder.io/qwik";
 
 type NotionRendererProps = {
     recordMap: ExtendedRecordMap;
@@ -88,11 +88,11 @@ export const NotionRenderer = component$<NotionRendererProps>(
     const zoom = useComputed$(
       () =>
         typeof window !== "undefined" &&
-        mediumZoom({
+        noSerialize(mediumZoom({
           background: "rgba(0, 0, 0, 0.8)",
           minZoomScale: 2.0,
           margin: getMediumZoomMargin(),
-        })
+        }))
     );
 
     return (

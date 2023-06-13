@@ -1,15 +1,12 @@
-import * as React from 'react'
-
 import * as types from 'notion-types'
 import { getPageBreadcrumbs } from 'notion-utils'
-import { useHotkeys } from 'react-hotkeys-hook'
 
 import { useNotionContext } from '../context'
-import { SearchIcon } from '../icons/search-icon'
-import { SearchNotionFn } from '../types'
+// import { SearchIcon } from '../icons/search-icon'
+// import { SearchNotionFn } from '../types'
 import { cs } from '../utils'
 import { PageIcon } from './page-icon'
-import { SearchDialog } from './search-dialog'
+// import { SearchDialog } from './search-dialog'
 import { Fragment, component$, useComputed$ } from '@builder.io/qwik'
 
 export const Header = component$<{
@@ -19,7 +16,7 @@ export const Header = component$<{
     <header class='notion-header'>
       <div class='notion-nav-header'>
         <Breadcrumbs block={block} />
-        <Search block={block} />
+        {/* <Search block={block} /> */}
       </div>
     </header>
   )
@@ -33,7 +30,7 @@ export const Breadcrumbs = component$<{
 
   const breadcrumbs = useComputed$(() => {
     const breadcrumbs = getPageBreadcrumbs(recordMap, block.id)
-    if (rootOnly) {
+    if (rootOnly && breadcrumbs) {
       return [breadcrumbs[0]].filter(Boolean)
     }
 
@@ -53,7 +50,7 @@ export const Breadcrumbs = component$<{
         }
 
         if (breadcrumb.active) {
-          componentMap.pageLink = (props) => <div {...props} />
+          componentMap.pageLink = (props) => <div {...props}/>
         } else {
           pageLinkProps.href = mapPageUrl(breadcrumb.pageId)
         }
@@ -61,11 +58,11 @@ export const Breadcrumbs = component$<{
         return (
           <Fragment key={breadcrumb.pageId}>
             <componentMap.pageLink
-              className={cs('breadcrumb', breadcrumb.active && 'active')}
+              class={cs('breadcrumb', breadcrumb.active && 'active')}
               {...pageLinkProps}
             >
               {breadcrumb.icon && (
-                <PageIcon className='icon' block={breadcrumb.block} />
+                <PageIcon class='icon' block={breadcrumb.block} />
               )}
 
               {breadcrumb.title && (
@@ -73,7 +70,7 @@ export const Breadcrumbs = component$<{
               )}
             </componentMap.pageLink>
 
-            {index < breadcrumbs.value.length - 1 && (
+            {breadcrumbs.value && index < breadcrumbs?.value.length - 1 && (
               <span class='spacer'>/</span>
             )}
           </Fragment>
@@ -83,67 +80,63 @@ export const Breadcrumbs = component$<{
   )
 })
 
-export const Search: React.FC<{
-  block: types.Block
-  search?: SearchNotionFn
-  title?: React.ReactNode
-}> = ({ block, search, title = 'Search' }) => {
-  const { searchNotion, rootPageId, isShowingSearch, onHideSearch } =
-    useNotionContext()
-  const onSearchNotion = search || searchNotion
+// export const Search = component$(({ block, search, title = 'Search' }) => {
+//   const { searchNotion, rootPageId, isShowingSearch, onHideSearch } =
+//     useNotionContext()
+//   const onSearchNotion = search || searchNotion
 
-  const [isSearchOpen, setIsSearchOpen] = React.useState(isShowingSearch)
-  React.useEffect(() => {
-    setIsSearchOpen(isShowingSearch)
-  }, [isShowingSearch])
+//   const [isSearchOpen, setIsSearchOpen] = React.useState(isShowingSearch)
+//   React.useEffect(() => {
+//     setIsSearchOpen(isShowingSearch)
+//   }, [isShowingSearch])
 
-  const onOpenSearch = React.useCallback(() => {
-    setIsSearchOpen(true)
-  }, [])
+//   const onOpenSearch = React.useCallback(() => {
+//     setIsSearchOpen(true)
+//   }, [])
 
-  const onCloseSearch = React.useCallback(() => {
-    setIsSearchOpen(false)
-    if (onHideSearch) {
-      onHideSearch()
-    }
-  }, [onHideSearch])
+//   const onCloseSearch = React.useCallback(() => {
+//     setIsSearchOpen(false)
+//     if (onHideSearch) {
+//       onHideSearch()
+//     }
+//   }, [onHideSearch])
 
-  useHotkeys('cmd+p', (event) => {
-    onOpenSearch()
-    event.preventDefault()
-    event.stopPropagation()
-  })
+//   useHotkeys('cmd+p', (event) => {
+//     onOpenSearch()
+//     event.preventDefault()
+//     event.stopPropagation()
+//   })
 
-  useHotkeys('cmd+k', (event) => {
-    onOpenSearch()
-    event.preventDefault()
-    event.stopPropagation()
-  })
+//   useHotkeys('cmd+k', (event) => {
+//     onOpenSearch()
+//     event.preventDefault()
+//     event.stopPropagation()
+//   })
 
-  const hasSearch = !!onSearchNotion
+//   const hasSearch = !!onSearchNotion
 
-  return (
-    <>
-      {hasSearch && (
-        <div
-          role='button'
-          className={cs('breadcrumb', 'button', 'notion-search-button')}
-          onClick={onOpenSearch}
-        >
-          <SearchIcon className='searchIcon' />
+//   return (
+//     <>
+//       {hasSearch && (
+//         <div
+//           role='button'
+//           class={cs('breadcrumb', 'button', 'notion-search-button')}
+//           onClick$={onOpenSearch}
+//         >
+//           <SearchIcon className='searchIcon' />
 
-          {title && <span className='title'>{title}</span>}
-        </div>
-      )}
+//           {title && <span class='title'>{title}</span>}
+//         </div>
+//       )}
 
-      {isSearchOpen && hasSearch && (
-        <SearchDialog
-          isOpen={isSearchOpen}
-          rootBlockId={rootPageId || block?.id}
-          onClose={onCloseSearch}
-          searchNotion={onSearchNotion}
-        />
-      )}
-    </>
-  )
-});
+//       {isSearchOpen && hasSearch && (
+//         <SearchDialog
+//           isOpen={isSearchOpen}
+//           rootBlockId={rootPageId || block?.id}
+//           onClose={onCloseSearch}
+//           searchNotion={onSearchNotion}
+//         />
+//       )}
+//     </>
+//   )
+// });
