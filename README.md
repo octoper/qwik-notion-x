@@ -1,6 +1,8 @@
 # Qwik Notion
 
-> This is just a POC just to show that we can use Notion-X with Qwik
+**Not ready to use in production**
+
+> This is a port of [NotionX/react-notion-x](https://github.com/NotionX/react-notion-x) for [Qwik Framework](https://github.com/builderio/qwik)
 
 ## 🤩 Thanks
 
